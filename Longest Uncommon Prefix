@@ -1,0 +1,28 @@
+#include <iostream>
+#include<stack>
+#include<vector>
+#include<string>
+using namespace std;
+char list[5005];
+
+
+int main()
+{
+    int t;
+    cin>>t;
+    int count=0;
+    scanf("%s", list); //start from 0 s=abcabc
+    for(int i=0; i<t-1; i++ )// 012345
+    {
+        for(int s=0; s<t-1; s++)
+        {
+            if(list[s]==list[s+i+1]) break;
+            else if(i+s+1>=t) break;
+            else count++;
+        }
+        cout<<count<<endl;
+        count=0;
+    }
+
+
+}
