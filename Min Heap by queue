@@ -1,0 +1,46 @@
+#include <iostream>
+#include <stdio.h>
+#include <vector>
+#include <string.h>
+#include <math.h>
+#include <list>
+#include <algorithm>
+#include <utility>
+#include <queue>
+#define ll long long
+
+using namespace std;
+
+
+
+int main()
+{
+    int q, mode, num;
+    priority_queue<int> pq;
+
+    cin>>q;
+    while(q--)
+    {
+        cin>>mode;
+        if(mode == 1)
+        {
+            cin >> num;
+            pq.push(-num);
+        }
+        else if (mode == 2)
+        {
+            if(!pq.empty())
+            {
+                pq.pop();
+            }
+        }
+        else
+        {
+            if(!pq.empty())
+                cout<<-pq.top()<<endl;
+            else
+                cout<<"EMPTY\n";
+        }
+    }
+    return 0;
+}
