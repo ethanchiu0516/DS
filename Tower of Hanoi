@@ -1,0 +1,41 @@
+#include <iostream>
+#include <stdio.h>
+#include <vector>
+#include <string.h>
+
+using namespace std;
+
+int a=0;
+
+
+int han(int n, int x, int y, int z)
+{
+    if(n==1)
+    {
+        a++;
+        cout<<x<<" "<<z<<endl;
+    }
+
+    else
+    {
+        han(n-1,x,z,y);
+        han(1,x,y,z);
+        han(n-1,y,x,z);
+    }
+    return a;
+}
+int count (int n)
+{
+    if(n==0) return 0;
+    return 2*count(n-1)+1;
+}
+
+int main()
+{
+    int n;
+    cin>>n;
+    cout<<count(n)<<endl;
+    //cout<<han(n,1,2,3)<<endl;
+    han(n,1,2,3);
+//cout<<a<<endl;
+}
