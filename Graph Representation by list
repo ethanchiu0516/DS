@@ -1,0 +1,68 @@
+#include <iostream>
+#include <stdio.h>
+#include <vector>
+#include <string.h>
+#include <math.h>
+#include <list>
+#include <algorithm>
+
+
+using namespace std;
+
+
+
+
+int main()
+{
+    int n, m, q;
+    int u, v;
+    cin >> n >> m >> q;
+
+    vector<vector<int>> al(n+1,vector<int>());
+
+    while(m--)
+    {
+        cin>>u>>v;
+        al[u].emplace_back(v);
+        al[v].emplace_back(u);
+    }
+
+    while(q--)
+    {
+        char query;
+        int count = 0;
+        bool flag = false;
+        cin>>query;
+        switch(query)
+        {
+        case 'D':
+            cin>>u;
+            for(auto i:al[u])
+            {
+                count++;
+            }
+            cout<<count<<endl;
+            break;
+        case 'N':
+            cin>>u>>v;
+            for(auto i:al[u])
+            {
+                if(i==v)
+                {
+                    flag = true;
+                    break;
+                }
+            }
+            if(flag) cout<<"Y"<<endl;
+            else cout<<"N"<<endl;
+            break;
+        default:
+            break;
+        }
+    }
+    /*
+    push_back():vector 尾部添加一個元素
+    emplace_back(): 也是尾部添加一個元素
+    */
+    return 0;
+}
