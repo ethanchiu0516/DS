@@ -1,0 +1,68 @@
+#include <iostream>
+#include <vector>
+using namespace std;
+using LL = long long int;
+
+void merge(vector<LL> &arr, int l, int r) {
+    // sorted decreasingly
+    // sorted sub-arr: arr[l], ..., arr[mid]
+    // sorted sub-arr: arr[mid+1], ..., arr[r]
+    vector<LL> tmp;
+    int mid = (l + r) / 2;
+
+    int i = l, j = mid + 1;
+    while (i <= mid && j <= r) {
+        if (arr[i] > arr[j]) {
+            tmp.emplace_back(arr[i]);
+            i++;
+        } else {
+            tmp.emplace_back(arr[j]);
+            j++;
+        }
+    }
+    while (i <= mid) {
+        tmp.emplace_back(arr[i]);
+        i++;
+    }
+    while (j <= r) {
+        tmp.emplace_back(arr[j]);
+        j++;
+    }
+
+    // copy back
+    // tmp[0], tmp[1], ...
+    // arr[l], arr[l+1], ...
+    for (int i = 0; i < tmp.size(); i++) {
+        arr[l+i] = tmp[i];
+    }
+}
+
+void mergesort(vector<LL> &arr, int l, int r) {
+    // base case: arr length == 1
+    if (l == r) {
+        return;
+    }
+    // recursive case
+    int mid = (l + r) / 2;
+    mergesort(arr, l, mid);
+    mergesort(arr, mid+1, r);
+    merge(arr, l, r);
+}
+
+int main() {
+    int n;
+    cin >> n;
+    vector<LL> arr(n);
+    for (auto &x : arr) cin >> x;
+    /*
+    for (int i = 0; i < n; i++) {
+        cin >> arr[i];
+    }
+     */
+    mergesort(arr, 0, n-1);
+
+    for (auto &x : arr) cout << x << " ";
+    cout << "\n";
+
+
+}
