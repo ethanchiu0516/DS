@@ -1,0 +1,44 @@
+#include<iostream>
+#include<vector>
+using namespace std;
+int main(){
+	int n,m,q;
+	int u,v;
+
+	cin >> n >> m >> q;
+
+	//initializing adjacency matrix
+	vector< vector<int> > am(n+1,vector<int>(n+1,0));
+	
+	//reading edges
+	while(m--){
+		cin >> u >> v;
+		am[u][v]++;
+		am[v][u]++;
+	}
+	
+	//queries
+	while(q--){
+		char query;
+		int count = 0;
+		cin >> query;
+		switch(query){
+			case 'D':
+				cin >> u;
+				for(auto i:am[u]){
+					count+=i;
+				}
+				cout << count << endl;
+				break;
+			case 'N':
+				cin >> u >> v;
+				if(am[u][v]==1) cout << "Y" << endl;
+				else cout << "N" << endl;
+				break;
+			default:
+				break;
+		}
+	}
+	
+	return 0;
+}
