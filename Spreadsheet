@@ -1,0 +1,101 @@
+#include <iostream>
+#include <stdio.h>
+#include <vector>
+#include <string.h>
+#include <math.h>
+#include <list>
+#include <algorithm>
+#include <utility>
+#include <queue>
+#include <climits> // INT_MAX
+#include <unordered_map>
+#define ll long long
+
+using namespace std;
+
+const int MAX = 1e5+5;
+vector<int> G[MAX], in_degrees(MAX), ans;
+unordered_map<int, long long> node;
+
+bool topo_sort(int n)
+{
+    ans.clear();
+    for(int i=1; i<=n; i++)
+    {
+        if(in_degrees[i] == 0) ans.push_back(i);
+    }
+
+    for(int i=0; i<ans.size(); i++)
+    {
+        int u = ans[i];
+        for(int v:G[u])
+        {
+            node[v] += node[u];
+            in_degrees[v]--;
+            if(in_degrees[v] == 0) ans.push_back(v);
+        }
+    }
+
+    return ans.size() == n;
+}
+
+int main()
+{
+    int n, m;
+    cin >> n >> m;
+
+    for(int i=0; i<m; i++)
+    {
+        char type;
+        int x1, x2, x3, x4, y;
+        cin>>type;
+        if(type == 'A')
+        {
+            cin>>x1>>y;
+            node[x1] = y;
+        }
+        else if(type == 'B')
+        {
+            cin >>x1>>x2>>y;
+            G[x2].push_back(x1);
+            in_degrees[x1]++;
+            node[x1] = y;
+        }
+        else if(type == 'C')
+        {
+            cin>>x1>>x2>>x3>>y;
+            G[x2].push_back(x1);
+            G[x3].push_back(x1);
+            in_degrees[x1] += 2;
+            node[x1] = y;
+        }
+        else if(type == 'D')
+        {
+            cin>>x1>>x2>>x3>>x4>>y;
+            G[x2].push_back(x1);
+            G[x3].push_back(x1);
+            G[x4].push_back(x1);
+            in_degrees[x1] += 3;
+            node[x1] = y;
+        }
+    }
+
+    if(!topo_sort(n))
+    {
+        for(int i=1; i<=n ;i++)
+        {
+            if(in_degrees[i]>0)
+                cout<<"#REF!"<<endl;
+            else cout<<node[i]<<endl;
+        }
+    }
+    else
+    {
+        for(int i=1; i<=n; i++)
+        {
+            cout<<node[i]<<endl;
+        }
+    }
+
+    return 0;
+}
