@@ -1,0 +1,53 @@
+#include <iostream>
+#include <stdio.h>
+#include <vector>
+#include <string.h>
+#include <math.h>
+#include <list>
+#include <algorithm>
+#include <utility>
+#define ll long long
+
+using namespace std;
+
+int find(vector<vector<int>> &a, int u, int n, int v)
+{
+    for(int i=0; i<=n; i++)
+    {
+        if(i!=u&&i!=v)
+        {
+            if(a[i][u]==1&&a[i][v]==1)
+                return 1;
+        }
+    }
+    return 0;
+}
+
+int main()
+{
+    int t, n, m, q;
+    int u, v;
+    cin>>t;
+    while(t)
+    {
+        cin >> n >> m >> q;
+        vector<vector<int>> am(n+1,vector<int>(n+1,0));
+        while(m)
+        {
+            cin >> u >> v;
+            am[u][v]++;
+            am[v][u]++;
+            m--;
+        }
+        while(q)
+        {
+            cin >> u >> v;
+            if(find(am,u,n,v))
+                cout<<"Y"<<endl;
+            else cout<<"N"<<endl;
+            q--;
+        }
+        t--;
+    }
+    return 0;
+}
