@@ -1,0 +1,53 @@
+#include <iostream>
+#include <queue>
+#include <vector>
+#include <string>
+#define f first
+#define s second
+
+using namespace std;
+
+void dfs(int index, vector<pair<int, int>> &T, int &ans)
+{
+    ans = index;
+    if(T[index].f!=-1) dfs(T[index].f, T, ans);
+    if(T[index].s!=-1) dfs(T[index].s, T, ans);
+    return;
+}
+
+void search(int index, vector<pair<int, int>> &T, int &ans)
+{
+    if(T[index].s!=-1) search(T[index].s, T, ans);
+    else if(T[index].f!=-1) search(T[index].f, T, ans);
+    else ans = index;
+}
+
+int main()
+{
+    long long n;
+    cin>>n;
+    vector<pair<int, int>> T(n+1, pair<int, int>(-1, -1));
+
+    long long root = n*(n+1)/2;
+    int ans;
+    for(int i=1; i<=n; i++)
+    {
+        int l, r;
+        cin >> l >> r;
+        if(l!=-1)
+        {
+            T[i].f = l;
+            root-=l;
+        }
+        if(r!=-1)
+        {
+            T[i].s = r;
+            root -= r;
+        }
+    }
+
+    dfs(root, T, ans);
+    cout<<ans<<endl;
+
+    return 0;
+}
