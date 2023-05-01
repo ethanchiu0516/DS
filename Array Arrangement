@@ -1,0 +1,98 @@
+#include <iostream>
+#include<vector>
+using namespace std;
+struct node{
+    int data;
+    node *prev;
+    node *next;
+};
+
+void insert_head(node*& head, node*& tail, vector<node*>& list, int target)
+{
+    node* t2= list[target];
+    t2->prev->next= t2->next;
+    t2->next->prev= t2->prev; // move target
+    
+    t2->next=head->next; // take care of the links
+    t2->prev=head;
+    head->next=t2;
+    t2->next->prev=t2;
+    
+}
+void insert_tail(node*& head, node*& tail, vector<node*>& list, int target)
+{
+    node* t2= list[target];
+    t2->prev->next= t2->next;
+    t2->next->prev=t2->prev;
+    
+    t2->next=tail;
+    t2->prev=tail->prev;
+    tail->prev=t2;
+    t2->prev->next= t2;
+    
+}
+
+void show(node* head, node* tail)
+{
+    node* t2= head->next;
+    while(t2!=tail)
+    {
+        cout<<t2->data<<" ";
+        t2=t2->next;
+    }
+    cout<<"\n";
+}
+
+void delete_list(node*& head, node*& tail, vector<node*> list, int n)
+{
+    for(int i=1; i<=n; i++) delete list[i];
+    head->next=tail;
+    tail->prev=head;
+    head->prev= NULL;
+    tail->next= NULL;
+}
+
+int main()
+{
+    int t,n,q;
+    string s;
+    int target;
+    node* head = new node;
+    node* tail = new node;
+    head->prev=NULL;
+    head->next= tail;
+    tail->prev= head;
+    tail->next= NULL;
+    cin>>t;
+    while(t--)
+    {
+        cin>>n>>q;
+        vector<node*> list(n+1);
+        for(int i=1; i<=n; i++)
+        {
+            node* t= new node; //create node list
+            t->data=i;
+            t->prev=tail->prev;
+            t->next= tail; // always one node ahead of tail
+            list[i]= t;
+            tail->prev->next= t;
+            tail->prev=t;
+        }
+        while(q--)
+        {
+            cin>>s>>target;
+            if(s=="H")
+            {
+                insert_head(head, tail, list, target);
+            }
+            else if( s=="T")
+            {
+                insert_tail(head, tail, list, target);
+            }
+        }
+        
+        show(head, tail);
+        delete_list(head, tail, list, n);
+        
+    }
+}
